@@ -11,7 +11,9 @@
 #include "Leaf.h"
 #include "Stem.h"
 #include "Rachis.h"
+#include "GrainM.h"
 #include "Grain.h"
+#include "IGrain.h"
 
 #include "Nitrogen.h"
 #include "Phosphorus.h"
@@ -50,7 +52,7 @@ class Plant
    Leaf   *leaf;
    Stem   *stem;
    Rachis *rachis;
-   Grain  *grain;
+   IGrain  *grain;
 
    Nitrogen   *nitrogen;
    Phosphorus *phosphorus;

@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <string>
+#include <stdexcept>
 #include "Utilities.h"
 
 class TableFn;
@@ -24,6 +25,8 @@ class PlantComponent
    public:
    ScienceAPI2  &scienceAPI;
    PlantComponent(ScienceAPI2 &api) : scienceAPI(api) {};
+   PlantComponent(ScienceAPI2 &api, Plant *p) : scienceAPI(api) {plant = p;};
+   //PlantComponent()  {throw std::runtime_error("PlantComponent() called!");};
 
    Plant *plant;
 
@@ -89,6 +92,8 @@ class PlantPart : public PlantComponent
 
    public:
    PlantPart(ScienceAPI2 &api) ;
+   PlantPart(ScienceAPI2 &api, Plant *p, string n, int pno) : PlantPart(api) {plant = p; name = n; partNo = pno;};
+   //PlantPart() {throw std::runtime_error("PlantPart() called!");};
    void initialize(void);
    virtual void  phenologyEvent(int) = 0;
    virtual double calcNDemand(void) = 0;
@@ -114,6 +119,7 @@ class PlantPart : public PlantComponent
    virtual double getNDemand(void){return nDemand;};
    virtual double getDltDmRetranslocate(void){return dmRetranslocate;};
    virtual double getDltNRetranslocate(void){return dltNRetranslocate;};
+   virtual double getNConc(void){return nConc;};
 
    virtual void  resetDailyVars(void);
 
@@ -123,6 +129,7 @@ class PlantPart : public PlantComponent
    virtual double getPGreen(void){return pGreen;};
    virtual double getPSenesced(void){return pSenesced;};
    virtual double getPDemand(void){return pDemand;};
+   virtual double getPConc(void){return pConc;};
    virtual double getDltPGreen(void){return dltPGreen;};
    virtual double getDltPRetrans(void){return dltPRetranslocate;};
 

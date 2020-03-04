@@ -113,7 +113,18 @@ void Plant::plantInit1(void)
 
    stem      = new Stem(scienceAPI, this);    PlantComponents.push_back(stem);  PlantParts.push_back(stem);
    rachis    = new Rachis(scienceAPI, this);  PlantComponents.push_back(rachis);PlantParts.push_back(rachis);
-   grain     = new Grain(scienceAPI, this);   PlantComponents.push_back(grain); PlantParts.push_back(grain);
+
+   string grainType = "";
+   scienceAPI.read("grain_type", "", true, grainType);
+   if (grainType == "" || grainType == "sorghum")
+      grain     = new Grain(scienceAPI, this);  
+   else if (grainType == "" || grainType == "maize")
+      grain     = new GrainM(scienceAPI, this);   
+   else 
+      throw new std::runtime_error("Unknown grain type " + grainType);
+
+   PlantComponents.push_back( dynamic_cast<PlantComponent *>(grain) ); 
+   PlantParts.push_back( dynamic_cast<PlantPart *>(grain) );
 
    phenology = new Phenology(scienceAPI, this); PlantComponents.push_back(phenology);
                                       PlantProcesses.push_back(phenology);

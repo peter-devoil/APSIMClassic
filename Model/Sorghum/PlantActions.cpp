@@ -173,9 +173,9 @@ void Plant::onHarvest(HarvestType &)     // Field a Harvest event
    sprintf(msg,"Crop harvested.\n"); scienceAPI.write(msg);
    sprintf(msg,"   Organic matter removed from system:-      From Tops\t\tFrom Roots\n"); scienceAPI.write(msg);
    sprintf(msg,"                    DM (kg/ha) =              %8.2f\t\t    0.00\n",
-                 grain->getDmGreen() * 10.0); scienceAPI.write(msg);
+                 dynamic_cast<PlantPart *>(grain)->getDmGreen() * 10.0); scienceAPI.write(msg);
    sprintf(msg,"                    N  (kg/ha) =              %8.2f\t\t    0.00\n",
-                 grain->getNGreen() * 10.0); scienceAPI.write(msg);
+                 dynamic_cast<PlantPart *>(grain)->getNGreen() * 10.0); scienceAPI.write(msg);
 
    scienceAPI.publish("harvesting");
 
@@ -218,7 +218,7 @@ void Plant::onEndCrop(void)     // Field a End crop event
 
    scienceAPI.write("Organic matter from crop:-      Tops to surface residue\t Roots to soil FOM\n");
    sprintf(msg, "                    DM (kg/ha) =              %8.2f\t\t%8.2f\n",
-      biomass->getAboveGroundBiomass() - grain->getDmGreen() * 10.0,(roots->getDmGreen() + roots->getDmSenesced()) * 10.0);
+      biomass->getAboveGroundBiomass() -  dynamic_cast<PlantPart *>(grain)->getDmGreen() * 10.0,(roots->getDmGreen() + roots->getDmSenesced()) * 10.0);
    scienceAPI.write(msg);
    sprintf(msg, "                    N  (kg/ha) =              %8.2f\t\t%8.2f\n",
       nitrogen->getNStover() * 10.0, (roots->getNGreen() + roots->getNSenesced()) * 10);

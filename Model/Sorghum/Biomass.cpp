@@ -2,7 +2,7 @@
 #include <ComponentInterface2/Variant.h> 
 #include "Plant.h"
 #include "Biomass.h"
-#include <General\string_functions.h> //dcaps
+#include <General/string_functions.h> //dcaps
 
 using namespace Sorghum;
 //---------------------------------------------------------------------------
@@ -117,7 +117,7 @@ void Biomass::updateVars(void)
 
    //Calculate harvest index
 
-   hi = divide(plant->grain->getDmGreen() * 10.0,aboveGroundBiomass, 0.0);
+   hi = divide( dynamic_cast<PlantPart *>(plant->grain)->getDmGreen() * 10.0,aboveGroundBiomass, 0.0);
 
    stage = plant->phenology->currentStage();
 

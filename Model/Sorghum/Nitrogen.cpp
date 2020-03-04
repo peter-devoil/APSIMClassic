@@ -233,7 +233,7 @@ void Nitrogen::updateVars(void)
    nPlant = sumVector(nGreen) + sumVector(nSenesced);
    nGreenBiomass = sumVector(nGreen) - plant->roots->getNGreen();
    nBiomass = nGreenBiomass + sumVector(nSenesced) - plant->roots->getNSenesced();
-   nStover = nBiomass - plant->grain->getNGreen() - plant->grain->getNSenesced();
+   nStover = nBiomass -  dynamic_cast<PlantPart *>(plant->grain)->getNGreen() -  dynamic_cast<PlantPart *>(plant->grain)->getNSenesced();
    nUptakeTotal += actualTotal;
 
    }
@@ -341,8 +341,8 @@ void Nitrogen::uptake(void)
    double lfDemand = plant->leaf->getNDemand();
    double sDemand = plant->stem->getNDemand();
 
-   plantNDemand = totalDemand - plant->grain->getNDemand();
-
+   plantNDemand = totalDemand - dynamic_cast<PlantPart *>(plant->grain)->getNDemand();
+ 
    // nUptakeCease oCd after anthesis, stop diffusion uptake
    double ttElapsed =   plant->phenology->sumTTtotalFM(flowering, maturity);
 
@@ -507,7 +507,7 @@ void Nitrogen::partition(void)
 
    // get the grain N demand
    // translocate from Stem, rachis and leaf to meet demand
-   nRequired = plant->grain->calcNDemand();
+   nRequired =  dynamic_cast<PlantPart *>(plant->grain)->calcNDemand();
    double nRachis,nStem,nLeaf;
    if(nRequired > 0)
       {
@@ -571,11 +571,11 @@ void Nitrogen::Summary(void)
    {
    char msg[120];
    sprintf(msg,"Grain N percent    (%%)     =  %8.2f \t Grain N            (kg/ha) = %8.2f\n",
-            plant->grain->getNConc(),plant->grain->getNGreen() * 10.0); scienceAPI.write(msg);
+             dynamic_cast<PlantPart *>(plant->grain)->getNConc(), dynamic_cast<PlantPart *>(plant->grain)->getNGreen() * 10.0); scienceAPI.write(msg);
    sprintf(msg,"Total N content    (kg/ha) =  %8.2f \t Senesced N content (kg/ha) = %8.2f\n",
             nBiomass * 10.0,sumVector(nSenesced) * 10.0); scienceAPI.write(msg);
    sprintf(msg,"Green N content    (kg/ha) =  %8.2f\n",
-            sumVector(nGreen) * 10.0 - plant->grain->getNGreen() * 10.0); scienceAPI.write(msg);
+            sumVector(nGreen) * 10.0 -  dynamic_cast<PlantPart *>(plant->grain)->getNGreen() * 10.0); scienceAPI.write(msg);
    }
 //------------------------------------------------------------------------------------------------
 double Nitrogen::sumPhotoStressTotal(int from, int to)

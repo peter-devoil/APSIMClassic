@@ -1,0 +1,10 @@
+diff a/Model/Sorghum/Nitrogen.cpp b/Model/Sorghum/Nitrogen.cpp	(rejected hunks)
+@@ -323,7 +323,7 @@ void Nitrogen::uptake(void)
+    // If demand is not satisfied by mass flow, then use diffusion.
+ 
+ 
+-   plantNDemand = totalDemand - plant->grain->getNDemand();
++   plantNDemand = totalDemand - dynamic_cast<PlantPart *>(plant->grain)->getNDemand();
+ 
+    // nUptakeCease oCd after anthesis, stop diffusion uptake
+    double ttElapsed =   plant->phenology->sumTTtotalFM(flowering, maturity);

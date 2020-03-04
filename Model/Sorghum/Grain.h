@@ -5,10 +5,11 @@
 
 #include "PlantComponents.h"
 #include "Utilities.h"
+#include "IGrain.h"
 
 namespace Sorghum {
 //------------------------------------------------------------------------------------------------
-class Grain : public PlantPart
+class Grain : public PlantPart , public IGrain
    {
    private:
 
@@ -69,16 +70,16 @@ class Grain : public PlantPart
    // biomass
    double partitionDM(double dltDM);
    double grainDMDifferential(void);
-   void  dmRetrans(double dltDm){dmRetranslocate = dltDm;}
+   void  dmRetrans(double dltDm);
    void  Harvest(void);
 
    // nitrogen
-   double getNConc(void)const{return nConc;}
+   double getNConc(void);
 
    // phosphorus
    double calcPDemand(void);
    double calcPRetransDemand(void);
-   double getPConc(void)const{return pConc;}
+   //double getPConc(void);
 
    // phenology
    void  phenologyEvent(int);

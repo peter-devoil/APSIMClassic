@@ -12,6 +12,7 @@ SRC = PlantInterface.cpp \
       Nitrogen.cpp \
       Rachis.cpp \
       Grain.cpp \
+      GrainM.cpp \
       Water.cpp \
       Phenology.cpp  \
       Plant.cpp  \

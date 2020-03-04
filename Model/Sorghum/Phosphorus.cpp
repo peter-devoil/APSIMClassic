@@ -13,7 +13,7 @@ Phosphorus::Phosphorus(ScienceAPI2 &api, Plant *p) : PlantProcess(api)
 
    StressParts.push_back(plant->leaf);
    StressParts.push_back(plant->stem);
-   StressParts.push_back(plant->grain);
+   StressParts.push_back( dynamic_cast<PlantPart *>(plant->grain));
 
    initialize();
    doRegistrations();
@@ -190,7 +190,7 @@ void Phosphorus::updateVars(void)
    pPlant = sumVector(pGreen) + sumVector(pSenesced);
    pGreenBiomass = sumVector(pGreen) - plant->roots->getPGreen();
    pBiomass = pGreenBiomass + sumVector(pSenesced) - plant->roots->getPSenesced();
-   pStover =  pBiomass - plant->grain->getPGreen() - plant->grain->getPSenesced();
+   pStover =  pBiomass -  dynamic_cast<PlantPart *>(plant->grain)->getPGreen() -  dynamic_cast<PlantPart *>(plant->grain)->getPSenesced();
 
    }
 //------------------------------------------------------------------------------------------------
@@ -370,11 +370,11 @@ void Phosphorus::Summary(void)
    {
    char msg[120];
    sprintf(msg, "Grain P percent    (%%)     =  %8.2f \t Grain P uptake     (kg/ha) = %8.2f\n",
-            plant->grain->getPConc() * 100,plant->grain->getPGreen() * 10.0); scienceAPI.write(msg);
+             dynamic_cast<PlantPart *>(plant->grain)->getPConc() * 100, dynamic_cast<PlantPart *>(plant->grain)->getPGreen() * 10.0); scienceAPI.write(msg);
    sprintf(msg, "Total P content    (kg/ha) =  %8.2f \t Senesced P content (kg/ha) = %8.2f\n",
             pBiomass * 10.0,sumVector(pSenesced) * 10.0); scienceAPI.write(msg);
    sprintf(msg, "Green P content    (kg/ha) =  %8.2f \n",
-            sumVector(pGreen) * 10.0 - plant->grain->getPGreen() * 10.0); scienceAPI.write(msg);
+            sumVector(pGreen) * 10.0 -  dynamic_cast<PlantPart *>(plant->grain)->getPGreen() * 10.0); scienceAPI.write(msg);
    }
 //------------------------------------------------------------------------------------------------
 //------- React to a newProfile message
